@@ -1,0 +1,14 @@
+bde_at3:
+  outputs:
+
+    dev:
+      type: postgres
+      threads: 4
+      host: 35.189.7.192
+      port: 5432
+      user: postgres
+      pass: 18817367186-FCYsyh
+      dbname: postgres
+      schema: public
+
+  target: dev
