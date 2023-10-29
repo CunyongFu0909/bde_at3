@@ -1,12 +1,10 @@
--- Subquery (d) to calculate various statistics per "listing_neighbourhood" and "month/year"
 SELECT
-    c.lga_name AS listing_neighbourhood,    -- LGA name as listing_neighbourhood
-    d.Month_year,                           -- Month and year
-    active_listing_rate,                     -- Active listings rate
-    Minimum_price,                          -- Minimum price for active listings
-    Maximum_price,                          -- Maximum price for active listings
+    c.lga_name AS listing_neighbourhood,   
+    d.Month_year,                          
+    active_listing_rate,                    
+    Minimum_price,                          
+    Maximum_price,                          
     (
-        -- Subquery to calculate the median price for active listings
         SELECT price
         FROM {{ ref('facts_final') }} AS sub
         WHERE has_availability = 't'
@@ -14,17 +12,16 @@ SELECT
         ORDER BY price
         LIMIT 1
     ) AS Median_price,
-    Average_price,                          -- Average price for active listings
-    Number_of_distinct_hosts,               -- Number of distinct hosts
-    Superhost_rate,                         -- Superhost rate
-    Average_of_review_scores,               -- Average review_scores_rating for active listings
-    percent_change_rate_active_listings,    -- Percentage change for active listings
-    percent_change_rate_inactive_listings,  -- Percentage change for inactive listings
-    Total_Number_of_stays,                  -- Total number of stays
-    Average_Estimated_revenue_per_active_listings  -- Average estimated revenue per active listings
+    Average_price,                          
+    Number_of_distinct_hosts,               
+    Superhost_rate,                         
+    Average_of_review_scores,               
+    percent_change_rate_active_listings,    
+    percent_change_rate_inactive_listings,  
+    Total_Number_of_stays,                  
+    Average_Estimated_revenue_per_active_listings  
 FROM
 (
-    -- Subquery (d) to calculate statistics related to availability and pricing
     SELECT
         lga_code,
         DATE_TRUNC('month', scraped_date) AS Month_year,
@@ -41,7 +38,6 @@ FROM
     GROUP BY 1, 2
 ) AS d
 
--- Subquery (c) to calculate percentage change rates
 LEFT JOIN
 (
     SELECT
